@@ -2,13 +2,34 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เว็บไซต์ของฉัน</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>สวัสดี GitHub Pages!</h1>
-    <p>นี่คือเว็บไซต์แรกของฉันบน GitHub</p>
+    <header>
+        <nav>
+            <h1 class="logo">My Website</h1>
+            <ul class="menu">
+                <li><a href="#">หน้าแรก</a></li>
+                <li><a href="#">เกี่ยวกับ</a></li>
+                <li><a href="#">ติดต่อ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>ยินดีต้อนรับ!</h2>
+            <p>นี่คือเว็บไซต์ตัวอย่างที่สร้างด้วย GitHub Pages 🚀</p>
+            <button onclick="sayHello()">คลิกทักทาย</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 เว็บไซต์ของฉัน | ทำด้วย ❤️ บน GitHub Pages</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
