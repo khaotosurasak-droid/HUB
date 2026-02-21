@@ -1,0 +1,107 @@
+-- Load WindUI
+local WindUI = loadstring(game:HttpGet(
+    "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"
+))()
+
+-- Create Window
+local Window = WindUI:CreateWindow({
+    Title = "Saber HUB",
+    Icon = "door-open",
+    Author = "by XenoAttack",
+
+    OpenButton = {
+        Title = "Open Example UI",
+        Icon = "monitor",
+        CornerRadius = UDim.new(0,16),
+        StrokeThickness = 2,
+        Color = ColorSequence.new(
+            Color3.fromHex("FF0F7B"),
+            Color3.fromHex("F89B29")
+        ),
+        OnlyMobile = false,
+        Enabled = true,
+        Draggable = true,
+    }
+})
+
+-- Tab
+local Tab = Window:Tab({
+    Title = "Main",
+    Icon = "bird",
+    Locked = false,
+})
+
+Tab:Select()
+
+----------------------------------------------------------------
+-- VARIABLES
+----------------------------------------------------------------
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+_G.AutoFarmItem = false
+local SelectedItems = {}
+
+----------------------------------------------------------------
+-- FUNCTIONS
+----------------------------------------------------------------
+local function getHRP()
+    local char = player.Character or player.CharacterAdded:Wait()
+    return char:WaitForChild("HumanoidRootPart")
+end
+
+----------------------------------------------------------------
+-- DROPDOWN
+----------------------------------------------------------------
+Tab:Dropdown({
+    Title = "เลือก Item",
+    Desc = "เลือกไอเท็มที่จะฟาร์ม",
+    Values = {"มงกุฎ" },
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(option)
+        SelectedItems = option
+        print("Selected Items:", game:GetService("HttpService"):JSONEncode(option))
+    end
+})
+
+----------------------------------------------------------------
+-- TOGGLE AUTOFARM
+----------------------------------------------------------------
+Tab:Toggle({
+    Title = "AutoFarmItem",
+    Desc = "ฟาร์มอัตโนมัติ",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false,
+
+    Callback = function(state)
+        _G.AutoFarmItem = state
+        print("AutoFarm:", state)
+
+        if not state then return end
+
+        task.spawn(function()
+            while _G.AutoFarmItem do
+                local hrp = getHRP()
+
+                for _, v in pairs(
+                    workspace.Gameplay.CurrencyPickup.CurrencyHolder:GetChildren()
+                ) do
+                    if not _G.AutoFarmItem then break end
+                    if not v:IsA("BasePart") then continue end
+
+
+                    -- Crown
+                    if table.find(SelectedItems, "มงกุฎ") and v.Name == "Crown" then
+                        hrp.CFrame = v.CFrame + Vector3.new(0, 5, 0)
+                        task.wait(0.4)
+                    end
+                end
+
+                task.wait(0.2)
+            end
+        end)
+    end
+})
